@@ -16,6 +16,27 @@ const categories = {
         words: ['soccer', 'javelin', 'discus', 'shortput', 'tennis', 'archery', 'basketball', 'volleyball', 'polevault', 'fencing', 'baseball', 'swimming'],
         hint: 'guess the sport'
     },
+    movies: {
+        words: [
+          'inception', 'titanic', 'avatar', 'gladiator', 'coco',
+          'godfather', 'pulpfiction', 'interstellar', 'matrix', 'rocky', 'joker'
+        ],
+        hint: 'Guess the movie'
+      },
+      colors: {
+        words: [
+          'red', 'blue', 'green', 'yellow', 'purple',
+          'orange', 'pink', 'brown', 'black', 'white', 'magenta', 'cyan', 'violet'
+        ],
+        hint: 'Guess the color'
+      },
+      cars: {
+        words: [
+          'tesla', 'ford', 'bmw', 'audi', 'mercedes',
+          'chevrolet', 'honda', 'toyota', 'nissan', 'volkswagen', 'volvo', 'hyundai', 'kia'
+        ],
+        hint: 'Guess the car brand'
+      }
 }
 // global variables
 let currentWord = '' //split each letter as an item in a n array
@@ -162,4 +183,4 @@ function isWordComplete(){
 categorySelect.addEventListener('change', gamePlay)
 newGameBtn.addEventListener('click', gamePlay)
 // call function
-gamePlay()
+gamePlay() 
