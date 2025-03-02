@@ -74,6 +74,8 @@ const modalNewGameBtn = document.getElementById('modal-new-game-btn');
 // 7. keep scores
 // 8. how many tries (maximum guesses allowed)
 
+let remainingWords = {};
+
 // main function that initialises the game
 function gamePlay(){
     // clean out the  the state
@@ -91,6 +93,17 @@ function gamePlay(){
     const category = categorySelect.value;
     hintElement.textContent = categories[category].hint;
    
+
+    // Initialize or refill remainingWords for this category if necessary
+  if (!remainingWords[category] || remainingWords[category].length === 0) {
+    // Create a copy of the category words
+    remainingWords[category] = [...categories[category].words];
+  }
+
+  // Randomly select a word from the remainingWords and remove it from the list
+  const wordsArray = remainingWords[category];
+  const randomIndex = Math.floor(Math.random() * wordsArray.length);
+  currentWord = wordsArray.splice(randomIndex, 1)[0];
 
     // generate the random word from the chosen category
     const words = categories[category].words;
