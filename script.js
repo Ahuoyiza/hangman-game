@@ -57,6 +57,12 @@ const hintElement = document.getElementById('hint');
 const categorySelect = document.getElementById('category-select');
 const hangmanParts = document.querySelectorAll('.hangman-part');
 
+// Modal elements
+const modal = document.getElementById('modal');
+const modalMessage = document.getElementById('modal-message');
+const closeModal = document.getElementById('close-modal');
+const modalNewGameBtn = document.getElementById('modal-new-game-btn');
+
 
 //gameplay:
 // 1. there is a current word (randomly chosen by our program from the dataset)
@@ -77,6 +83,9 @@ function gamePlay(){
     // reset the visual part if the state
     triesLeft.textContent = maxTries;
     messageElement.textContent = ' ';
+    messageElement.className = 'message';
+
+    hideModal();
 
     // get current category
     const category = categorySelect.value;
@@ -144,12 +153,18 @@ function handleGuess(letter){
     if (currentWord.includes(letter)){
         key.classList.add('correct');
         updateWordDisplay(letter);
+        if(isWordComplete()) {
+            handleWin()
+        }
         
     }else{
         key.classList.add('wrong');
-        wrongGuesses ++
+        wrongGuesses ++;
         triesLeft.textContent = maxTries - wrongGuesses;
         updateHangman();
+        if (wrongGuesses === maxTries) {
+            handleLoss();
+        }
     }
 }
 
@@ -176,8 +191,44 @@ function isWordComplete(){
     }return true;
 }
 
+// handles win condition: updates score, shows modal, and disables further input
+function handleWin() {
+    score++;
+    scoreElement.textContent = score;
+    messageElement.textContent = 'You win!';
+    messageElement.classList.add('success');
+    disableKeyboard();
+    showModal('Congratulations, you win!');
+  }
 // function handleWin() {
 
+// handles loss condition: shows modal and disables further input
+function handleLoss() {
+    messageElement.textContent = `You lose! The word was "${currentWord}".`;
+    messageElement.classList.add('danger');
+    disableKeyboard();
+    showModal(`You lose! The word was "${currentWord}".`);
+  }
+
+
+  // disables all keyboard buttons
+function disableKeyboard() {
+    [...keyboard.children].forEach(button => button.disabled = true);
+  }
+  
+  // Modal functions
+  function showModal(text) {
+    modalMessage.textContent = text;
+    modal.style.display = 'block';
+  }
+  
+  function hideModal() {
+    modal.style.display = 'none';
+  }
+  
+  // Event listeners for modal close and new game buttons
+  closeModal.addEventListener('click', hideModal);
+  modalNewGameBtn.addEventListener('click', gamePlay);
 // }
 // event listeners
 categorySelect.addEventListener('change', gamePlay)
